@@ -7,16 +7,20 @@ import lombok.Setter;
 import java.util.Objects;
 
 @Getter @Setter @AllArgsConstructor
-public class Rating {
+public final class Rating {
     private String userName;
     private int rating;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Rating rating = (Rating) o;
-        return Objects.equals(this.userName, rating.userName);
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Rating ratingComp = (Rating) o;
+        return Objects.equals(this.userName, ratingComp.userName);
     }
 
     @Override

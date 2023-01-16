@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import database.Constants;
 import lombok.Getter;
 import lombok.Setter;
-import observer_pattern.Observer;
+import observerpattern.Observer;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -61,6 +60,9 @@ public final class User implements Observer {
         this.numFreePremiumMovies--;
     }
 
+    /**
+     * Refund a free premium movie. Increments Freemium movies by 1
+     */
     public void refundFreemiumMovie() {
         this.numFreePremiumMovies++;
     }
@@ -69,15 +71,25 @@ public final class User implements Observer {
         this.credentials = credentials;
     }
 
+    /**
+     * Method that updates notifications with given message
+     * @param message   message for the user
+     */
     @Override
-    public void update(Notification message) {
+    public void update(final Notification message) {
         this.notifications.add(message);
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         User user = (User) o;
         return Objects.equals(credentials, user.credentials);
     }
@@ -87,7 +99,12 @@ public final class User implements Observer {
         return Objects.hash(credentials);
     }
 
-    public void removeMovie(Movie removedMovie) {
+    /**
+     * Removes movie from User's lists - purchased, watched, liked and rated
+     * To be used when removing movie from database
+     * @param removedMovie  Movie instance to be removed
+     */
+    public void removeMovie(final Movie removedMovie) {
         this.getPurchasedMovies().remove(removedMovie);
         this.getWatchedMovies().remove(removedMovie);
         this.getRatedMovies().remove(removedMovie);

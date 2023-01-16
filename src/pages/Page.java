@@ -62,14 +62,27 @@ public abstract class Page {
         }
     }
 
+    /**
+     * Compares the name of the two Page objects - must set pageName in order to work
+     * @param o     Page object to be compared to
+     * @return      comparison return - based on Objects.equals()
+     */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Page page = (Page) o;
         return Objects.equals(pageName, page.pageName);
     }
 
+    /**
+     * Returns the hashCode of the page based on pageName - must set hashCode to use
+     * @return  hash code (int)
+     */
     @Override
     public int hashCode() {
         return Objects.hash(pageName);

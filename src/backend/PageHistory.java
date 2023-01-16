@@ -14,17 +14,26 @@ import pages.Page;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * A class that contains information about the previous state of the current session
+ * A memento-like class
+ */
 @Getter @Setter
 class PrevPageDetails {
     private String pageName;
     private ArrayList<Movie> currentMoviesList;
 
-    public PrevPageDetails(String pageName, ArrayList<Movie> currentMoviesList) {
+    PrevPageDetails(final String pageName, final ArrayList<Movie> currentMoviesList) {
         this.setPageName(pageName);
         this.setCurrentMoviesList(new ArrayList<>(currentMoviesList));
     }
 }
 
+/**
+ * Class that provides the abilities to store states, add them to the Stack and retrieve past
+ * states from the Stack
+ * A caretaker-like class
+ */
 @Getter @Setter @AllArgsConstructor
 public class PageHistory {
     private Stack<PrevPageDetails> previousPages;
@@ -33,6 +42,9 @@ public class PageHistory {
     private final CurrentSession currentSession;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
+    /**
+     * Sets the current session to its previous state
+     */
     public void goBack() {
         // check for invalid cases
         // nowhere to go backwards
@@ -69,6 +81,9 @@ public class PageHistory {
         }
     }
 
+    /**
+     * Stores the current session as a state
+     */
     public void addPageToHistory() {
         PrevPageDetails prev = new PrevPageDetails(currentSession.getCurrentPage().getPageName(),
                                                     currentSession.getCurrentMoviesList());
@@ -76,10 +91,16 @@ public class PageHistory {
         previousPages.push(prev);
     }
 
+    /**
+     * Clears the Stack which stores states
+     */
     public void clearHistory() {
         this.setPreviousPages(new Stack<>());
     }
 
+    /**
+     * Removes the last entry in the state Stack, without modifying the current session
+     */
     public void removeLastEntry() {
         this.getPreviousPages().pop();
     }

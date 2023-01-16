@@ -45,7 +45,6 @@ public final class Backend {
         PageHistory pageHistory = new PageHistory(new Stack<>(), output, database, currentSession);
 
         for (Action command : commands) {
-//            output.add("COMMAND INFO: " + command.getType() + " --- " + command.getFeature() + " --- " + command.getPage() + "|    |");
             switch (command.getType()) {
                 case "change page" -> {
                     // change page if possible
@@ -104,19 +103,28 @@ public final class Backend {
                         pageHistory.clearHistory();
                     }
                 }
-                case "on page" -> { commandController.accessCommand(command); }
-                case "back" -> { pageHistory.goBack(); }
+
+                case "on page" -> {
+                    commandController.accessCommand(command);
+                }
+                case "back" -> {
+                    pageHistory.goBack();
+                }
                 case "database" -> {
                     database.accessCommand(command);
                     // refresh database
                     currentSession.setAvailableMovies(database);
                 }
+
                 default ->
                         throw new IllegalStateException("Unexpected value: " + command.getType());
             }
         }
-        if (currentSession.getCurrentUser() != null &&
-            currentSession.getCurrentUser().getCredentials().getAccountType().equals("premium")) {
+
+        if (currentSession.getCurrentUser() != null && currentSession.getCurrentUser()
+                                                        .getCredentials()
+                                                        .getAccountType()
+                                                        .equals("premium")) {
             Recommendation.getRecommendation(currentSession);
             currentSession.setCurrentMoviesList(null);
             output.addPOJO(new Output(currentSession));

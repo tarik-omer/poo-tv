@@ -45,7 +45,8 @@ public final class Commands {
             case "like" -> this.like(command);
             case "rate" -> this.rate(command);
             case "subscribe" -> this.subscribe(command);
-            default -> throw new IllegalStateException("Unexpected value: " + command.getFeature());
+            default -> throw new IllegalStateException("Unexpected value: "
+                                                        + command.getFeature());
         }
     }
 
@@ -259,7 +260,7 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie - purchase");
+            System.out.println("Something went wrong - See Details has more than 1 movie");
             return;
         }
 
@@ -304,7 +305,7 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie - watch");
+            System.out.println("Something went wrong - See Details has more than 1 movie");
             return;
         }
 
@@ -339,7 +340,7 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie - rate");
+            System.out.println("Something went wrong - See Details has more than 1 movie");
             return;
         }
 
@@ -355,8 +356,9 @@ public final class Commands {
             currentMovie.rateMovie(command.getRate(), currentUser);
 
             // add the movie to rated movies only if it was not rated before
-            if (!currentUser.getRatedMovies().contains(currentMovie))
+            if (!currentUser.getRatedMovies().contains(currentMovie)) {
                 currentUser.getRatedMovies().add(currentMovie);
+            }
             output.addPOJO(new Output(currentSession));
         } else {
             output.addPOJO(new Error());
@@ -375,7 +377,7 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie - like");
+            System.out.println("Something went wrong - See Details has more than 1 movie");
             return;
         }
 
@@ -399,6 +401,11 @@ public final class Commands {
         }
     }
 
+    /**
+     * Subscribes the current user to the specified genre; subscribed users are notified
+     * when a movie withing the given genre is added / removed
+     * @param command   information about the command - subscribed genre
+     */
     public void subscribe(final Action command) {
         if (!currentSession.getCurrentPage().canPerformAction("subscribe")) {
             output.addPOJO(new Error());
@@ -406,7 +413,7 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie - sub");
+            System.out.println("Something went wrong - See Details has more than 1 movie");
             return;
         }
 

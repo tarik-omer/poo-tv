@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
 
 @Getter @Setter @AllArgsConstructor
 class Genre implements Comparable<Genre> {
@@ -15,7 +18,7 @@ class Genre implements Comparable<Genre> {
     private int likes;
 
     @Override
-    public int compareTo(Genre o) {
+    public int compareTo(final Genre o) {
         if (this.likes == o.likes) {
             return this.name.compareTo(o.name);
         }
@@ -29,13 +32,22 @@ class Genre implements Comparable<Genre> {
 
 class LikesInc implements Comparator<Movie> {
     @Override
-    public int compare(Movie o1, Movie o2) {
+    public int compare(final Movie o1, final Movie o2) {
         return o2.getNumLikes() - o1.getNumLikes();
     }
 }
 
-public class Recommendation {
-    public static void getRecommendation(CurrentSession currentSession) {
+public final class Recommendation {
+    private Recommendation() {
+
+    }
+
+    /**
+     * Method that retrieves a recommendation for the premium logged in user that
+     * finished using the webapp
+     * @param currentSession    information about the current session logged in
+     */
+    public static void getRecommendation(final CurrentSession currentSession) {
         User currentUser = currentSession.getCurrentUser();
 
         ArrayList<Movie> movies = currentSession.getAllAvailableMovies();
@@ -79,8 +91,8 @@ public class Recommendation {
         for (Genre genre : genreLikesList) {
             for (Movie movie : movies) {
                 // found candidate
-                if (movie.getGenres().contains(genre.getName()) &&
-                    !currentUser.getWatchedMovies().contains(movie)) {
+                if (movie.getGenres().contains(genre.getName())
+                        && !currentUser.getWatchedMovies().contains(movie)) {
                     foundRecommendation = true;
                     foundMovie = movie;
                     break;

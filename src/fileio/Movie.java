@@ -46,8 +46,8 @@ public final class Movie {
         }
     }
 
-    public Movie(String deletedMovie) {
-        this.name = deletedMovie;
+    public Movie(final String movieName) {
+        this.name = movieName;
     }
 
     /**
@@ -86,9 +86,8 @@ public final class Movie {
         if (!this.userRatings.isEmpty() && this.userRatings.contains(userRating)) {
             Rating oldRating = this.userRatings.get(this.userRatings.indexOf(userRating));
 
-            this.setRating((this.rating * this.numRatings -
-                    oldRating.getRating() +
-                    newRating) / this.numRatings);
+            this.setRating((this.rating * this.numRatings
+                    - oldRating.getRating() + newRating) / this.numRatings);
             oldRating.setRating(newRating);
         } else {
             this.setRating((this.rating * this.numRatings + newRating) / (this.numRatings + 1));
