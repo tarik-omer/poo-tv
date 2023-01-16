@@ -74,9 +74,10 @@ public class PageHistory {
 
         // set last page details
         currentSession.setCurrentPage(lastPage);
-        currentSession.setCurrentMoviesList(lastMovies);
+        currentSession.setCurrentMoviesList(new ArrayList<>(lastMovies));
 
-        if (!currentSession.getCurrentPage().getPageName().equals("home")) {
+        if (!currentSession.getCurrentPage().getPageName().equals("home")
+            && !currentSession.getCurrentPage().getPageName().equals("upgrades")) {
             output.addPOJO(new Output(currentSession));
         }
     }

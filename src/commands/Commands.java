@@ -1,6 +1,7 @@
 package commands;
 
 import backend.CurrentSession;
+import backend.PageHistory;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import database.Constants;
 import database.Database;
@@ -19,10 +20,13 @@ public final class Commands {
     private final ArrayNode output;
     private final Database database;
     private final CurrentSession currentSession;
+    private final PageHistory pageHistory;
 
     public Commands(final ArrayNode output,
                     final Database database,
-                    final CurrentSession currentSession) {
+                    final CurrentSession currentSession,
+                    final PageHistory pageHistory) {
+        this.pageHistory = pageHistory;
         this.output = output;
         this.database = database;
         this.currentSession = currentSession;
@@ -68,6 +72,7 @@ public final class Commands {
         if (database.getRegisteredUsers().containsKey(providedCredentials)) {
             // successful login
             User user  = database.getRegisteredUsers().get(providedCredentials);
+            this.pageHistory.addPageToHistory();
             currentSession.login(user, database);
             successfulLogin = true;
         }
@@ -78,7 +83,6 @@ public final class Commands {
             currentSession.setCurrentPage(HomepageNonAuth.getInstance());
             return;
         }
-
         // create output
         output.addPOJO(new Output(currentSession));
     }
@@ -103,6 +107,7 @@ public final class Commands {
             successfulRegister = true;
             User newUser =  new User(providedCredentials);
             database.addUser(newUser);
+            this.pageHistory.addPageToHistory();
             currentSession.login(newUser, database);
         }
 

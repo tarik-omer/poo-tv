@@ -13,7 +13,7 @@ public final class Main {
     }
     /**
      * Main function - runs the entire program
-     * @param args  paths to input and output files
+     * @param args  paths to input (idx: 0) and output (idx: 1) files
      */
     public static void main(final String[] args) throws IOException {
         // get input

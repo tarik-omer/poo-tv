@@ -13,6 +13,22 @@ movie streaming web application, similar to Netflix, Disney Plus or
 HBO GO. There are several pages the user can switch between, most of which
 require a logged-in user to access.
 
+# Updates
+Version 1.1 is now available! New features added! (16-01-2023)
+
+The added features are:
+
+- 'back' / previous page button - it is possible to return to the last page easier
+- new movies - the possibility to add / delete movies from the movie database (database - add and
+  database - delete commands)
+- 'subscribe' feature - it is now possible for a user to subscribe to a specified genre;
+  he will be then notified when a movie containing said genre is added or removed from the
+  movie database
+- premium user recommendations - premium users will now receive at the end of the session
+  a movie recommendation based on the liked genres and most popular movies; available only for
+  the last user that uses the app
+- a user can rate a movie multiple times, replacing previous rating and recalculating average rating
+
 ## Usage
 
 First, in order to be able to watch movies, a user must be logged in.
@@ -86,21 +102,6 @@ Movies are stored inside a database (ArrayList), along with all the registered u
 When logged in, an instance of the class CurrentSession stores available movies based on the
 current  user's country, the current user and current movies visible (movies can be visible
 only on Movies Page and on See Details Page).
-
-# Updates
-Version 1.1 is now available! New features added!
-
-The added features are:
-
-- 'back' / previous page button - it is possible to return to the last page easier
-- new movies - the possibility to add / delete movies from the movie database (database - add and
-database - delete commands)
-- 'subscribe' feature - it is now possible for a user to subscribe to a specified genre;
-he will be then notified when a movie containing said genre is added or removed from the
-movie database
-- premium user recommendations - premium users will now receive at the end of the session
-a movie recommendation based on the liked genres and most popular movies; available only for
-the last user that uses the app
 
 ## Possible Improvements
 

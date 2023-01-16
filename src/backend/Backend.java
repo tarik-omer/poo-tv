@@ -37,14 +37,19 @@ public final class Backend {
         // get command list
         ArrayList<Action> commands = input.getActions();
         // we start logged out, on unauthenticated home page
-        CurrentSession currentSession = new CurrentSession(HomepageNonAuth.getInstance(),
-                                                            null);
-
-        Commands commandController = new Commands(output, database, currentSession);
+        CurrentSession currentSession = new CurrentSession(HomepageNonAuth.getInstance(), null);
 
         PageHistory pageHistory = new PageHistory(new Stack<>(), output, database, currentSession);
 
+        Commands commandController = new Commands(output, database, currentSession, pageHistory);
+
         for (Action command : commands) {
+            String lastPage;
+            if (!pageHistory.getPreviousPages().isEmpty()) {
+                lastPage = pageHistory.getPreviousPages().peek().getPageName();
+            } else {
+                lastPage = "NO LAST PAGE";
+            }
             switch (command.getType()) {
                 case "change page" -> {
                     // change page if possible
@@ -99,8 +104,9 @@ public final class Backend {
 
                     // user logged out
                     if (currentSession.getCurrentPage().equals(LogoutPage.getInstance())) {
-                        currentSession.createNewSession();
                         pageHistory.clearHistory();
+                        currentSession.createNewSession();
+                        pageHistory.addPageToHistory();
                     }
                 }
 
