@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 @Setter @Getter
 public abstract class Page {
+    private String pageName;
     private ArrayList<String> childrenPages;
     private ArrayList<String> pageCommands;
 
@@ -53,7 +55,23 @@ public abstract class Page {
             case "logout" -> {
                 return LogoutPage.getInstance();
             }
+            case "home" -> {
+                return HomepageAuth.getInstance();
+            }
             default -> throw new IllegalStateException("Unexpected value: " + pageName);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Page page = (Page) o;
+        return Objects.equals(pageName, page.pageName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pageName);
     }
 }

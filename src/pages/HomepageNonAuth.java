@@ -6,6 +6,8 @@ public final class HomepageNonAuth extends Page {
     private static final HomepageNonAuth INSTANCE = new HomepageNonAuth();
 
     private HomepageNonAuth() {
+        this.setPageName("non home");
+
         ArrayList<String> childrenPages = new ArrayList<>();
         ArrayList<String> pageCommands = new ArrayList<>();
 

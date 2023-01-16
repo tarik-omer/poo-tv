@@ -6,6 +6,8 @@ public final class UpgradesPage extends Page {
     private static final UpgradesPage INSTANCE = new UpgradesPage();
 
     private UpgradesPage() {
+        this.setPageName("upgrades");
+
         ArrayList<String> childrenPages = new ArrayList<>();
         ArrayList<String> pageCommands = new ArrayList<>();
 

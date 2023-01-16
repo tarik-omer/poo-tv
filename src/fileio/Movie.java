@@ -1,5 +1,6 @@
 package fileio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Getter @Setter @ToString
 public final class Movie {
     private String name;
-    private int year;
+    private String year;
     private int duration;
     private ArrayList<String> genres;
     private ArrayList<String> actors;
@@ -20,6 +21,9 @@ public final class Movie {
     private int numLikes = 0;
     private int numRatings = 0;
     private Double rating = 0.00;
+
+    @JsonIgnore
+    private ArrayList<Rating> userRatings = new ArrayList<>();
 
     public Movie() {
 
@@ -35,6 +39,15 @@ public final class Movie {
         this.numLikes = movie.numLikes;
         this.rating = movie.rating;
         this.numRatings = movie.numRatings;
+        // copy all ratings
+        this.userRatings = new ArrayList<>();
+        for (Rating userRating : movie.userRatings) {
+            this.userRatings.add(new Rating(userRating));
+        }
+    }
+
+    public Movie(String deletedMovie) {
+        this.name = deletedMovie;
     }
 
     /**
@@ -57,15 +70,33 @@ public final class Movie {
      * Calculates new rating based on given rating
      * @param newRating     given rating
      */
-    public void rateMovie(final int newRating) {
+    public void rateMovie(final int newRating, final User currentUser) {
         if (this.rating == null) {
             this.rating = (double) 0;
         }
 
-        this.setRating((this.rating * this.numRatings + newRating) / (this.numRatings + 1));
-        this.numRatings++;
-    }
+        // create user ratings store system if it does not exist
+        if (this.userRatings == null) {
+            this.userRatings = new ArrayList<>();
+        }
 
+        // create user rating instance - for storage, so you can later modify it
+        Rating userRating = new Rating(currentUser.getCredentials().getName(), newRating);
+
+        if (!this.userRatings.isEmpty() && this.userRatings.contains(userRating)) {
+            Rating oldRating = this.userRatings.get(this.userRatings.indexOf(userRating));
+
+            this.setRating((this.rating * this.numRatings -
+                    oldRating.getRating() +
+                    newRating) / this.numRatings);
+            oldRating.setRating(newRating);
+        } else {
+            this.setRating((this.rating * this.numRatings + newRating) / (this.numRatings + 1));
+            this.numRatings++;
+            this.userRatings.add(userRating);
+        }
+
+    }
     @Override
     public boolean equals(final Object o) {
         if (o.getClass() != this.getClass()) {

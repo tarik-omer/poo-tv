@@ -6,6 +6,9 @@ public final class LoginPage extends Page {
     private static final LoginPage INSTANCE = new LoginPage();
 
     private LoginPage() {
+        this.setPageName("login");
+
+
         ArrayList<String> childrenPages = new ArrayList<>();
         ArrayList<String> pageCommands = new ArrayList<>();
 

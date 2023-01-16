@@ -44,6 +44,7 @@ public final class Commands {
             case "watch" -> this.watch(command);
             case "like" -> this.like(command);
             case "rate" -> this.rate(command);
+            case "subscribe" -> this.subscribe(command);
             default -> throw new IllegalStateException("Unexpected value: " + command.getFeature());
         }
     }
@@ -258,15 +259,21 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie");
+            System.out.println("Something went wrong - See Details has more than 1 movie - purchase");
             return;
         }
+
 
         // on see details we must be able to see only 1 movie
         Movie currentMovie = currentSession.getCurrentMoviesList().get(0);
         User currentUser = currentSession.getCurrentUser();
 
-        // check premium or not account - subtract tokens or decrement freemium movies number
+        if (currentSession.getCurrentUser().getPurchasedMovies().contains(currentMovie)) {
+            output.addPOJO(new Error());
+            return;
+        }
+
+            // check premium or not account - subtract tokens or decrement freemium movies number
         if (currentUser.getCredentials().getAccountType().equals("premium")
             && currentUser.getNumFreePremiumMovies() >= 1) {
             currentUser.useFreemiumMovie();
@@ -297,13 +304,19 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie");
+            System.out.println("Something went wrong - See Details has more than 1 movie - watch");
             return;
         }
 
         // on see details we must be able to see only 1 movie
         Movie currentMovie = currentSession.getCurrentMoviesList().get(0);
         User currentUser = currentSession.getCurrentUser();
+
+        // if you watched the movie already, nothing happens - only output
+        if (currentUser.getWatchedMovies().contains(currentMovie)) {
+            output.addPOJO(new Output(currentSession));
+            return;
+        }
 
         // to watch a movie, it needs to be purchased
         if (currentUser.getPurchasedMovies().contains(currentMovie)) {
@@ -326,7 +339,7 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie");
+            System.out.println("Something went wrong - See Details has more than 1 movie - rate");
             return;
         }
 
@@ -338,8 +351,12 @@ public final class Commands {
         if (currentUser.getWatchedMovies().contains(currentMovie)
                 && command.getRate() <= Constants.MAXIMUM_RATING
                 && command.getRate() >= 0) {
-            currentMovie.rateMovie(command.getRate());
-            currentUser.getRatedMovies().add(currentMovie);
+            // rate movie - or replace previous rating
+            currentMovie.rateMovie(command.getRate(), currentUser);
+
+            // add the movie to rated movies only if it was not rated before
+            if (!currentUser.getRatedMovies().contains(currentMovie))
+                currentUser.getRatedMovies().add(currentMovie);
             output.addPOJO(new Output(currentSession));
         } else {
             output.addPOJO(new Error());
@@ -358,13 +375,19 @@ public final class Commands {
         }
 
         if (currentSession.getCurrentMoviesList().size() != 1) {
-            System.out.println("Something went wrong - See Details has more than 1 movie");
+            System.out.println("Something went wrong - See Details has more than 1 movie - like");
             return;
         }
 
         // on see details we must be able to see only 1 movie
         Movie currentMovie = currentSession.getCurrentMoviesList().get(0);
         User currentUser = currentSession.getCurrentUser();
+
+        // if you liked the movie already, nothing happens - only output
+        if (currentUser.getLikedMovies().contains(currentMovie)) {
+            output.addPOJO(new Output(currentSession));
+            return;
+        }
 
         // to rate a like, it needs to be watched first
         if (currentUser.getWatchedMovies().contains(currentMovie)) {
@@ -374,5 +397,22 @@ public final class Commands {
         } else {
             output.addPOJO(new Error());
         }
+    }
+
+    public void subscribe(final Action command) {
+        if (!currentSession.getCurrentPage().canPerformAction("subscribe")) {
+            output.addPOJO(new Error());
+            return;
+        }
+
+        if (currentSession.getCurrentMoviesList().size() != 1) {
+            System.out.println("Something went wrong - See Details has more than 1 movie - sub");
+            return;
+        }
+
+        User currentUser = currentSession.getCurrentUser();
+
+        // attach user to notified users list
+        database.attach(currentUser, command.getSubscribedGenre());
     }
 }

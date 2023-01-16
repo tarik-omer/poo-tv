@@ -27,6 +27,11 @@ public final class Main {
 
         // write output
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
+        char[] inputPath = args[0].toCharArray();
+        objectWriter.writeValue(new File("checker/resources/out/out_" + inputPath[inputPath.length - 6] + ".json"), output);
         objectWriter.writeValue(new File(args[1]), output);
+
+
+
     }
 }

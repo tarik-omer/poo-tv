@@ -6,6 +6,8 @@ public final class HomepageAuth extends Page {
     private static final HomepageAuth INSTANCE = new HomepageAuth();
 
     private HomepageAuth() {
+        this.setPageName("home");
+
         ArrayList<String> childrenPages = new ArrayList<>();
         ArrayList<String> pageCommands = new ArrayList<>();
 

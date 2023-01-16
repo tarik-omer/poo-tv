@@ -33,7 +33,7 @@ public final class Backend {
 
     public void startRunning() {
         // set current available movies
-        Database database = new Database(input.getMovies(), input.getUsers());
+        Database database = new Database(input.getMovies(), input.getUsers(), output);
         // get command list
         ArrayList<Action> commands = input.getActions();
         // we start logged out, on unauthenticated home page
@@ -45,6 +45,7 @@ public final class Backend {
         PageHistory pageHistory = new PageHistory(new Stack<>(), output, database, currentSession);
 
         for (Action command : commands) {
+//            output.add("COMMAND INFO: " + command.getType() + " --- " + command.getFeature() + " --- " + command.getPage() + "|    |");
             switch (command.getType()) {
                 case "change page" -> {
                     // change page if possible
@@ -52,6 +53,9 @@ public final class Backend {
 
                     // user can change page
                     if (currentSession.getCurrentPage().canChangePage(command.getPage())) {
+                        // add page to history
+                        pageHistory.addPageToHistory();
+                        // set new current page
                         currentSession.setCurrentPage(Page.pseudoPageFactory(command.getPage()));
                         successfulPageChange = true;
                     }
@@ -88,13 +92,11 @@ public final class Backend {
                         } else {
                             // no such movie exists
                             output.addPOJO(new Error());
+                            pageHistory.removeLastEntry();
                             currentSession.setCurrentPage(MoviesPage.getInstance());
                         }
                         continue;
                     }
-
-                    // add page to history
-                    pageHistory.addPageToHistory();
 
                     // user logged out
                     if (currentSession.getCurrentPage().equals(LogoutPage.getInstance())) {
@@ -102,11 +104,22 @@ public final class Backend {
                         pageHistory.clearHistory();
                     }
                 }
-                case "on page" -> commandController.accessCommand(command);
-                case "back" -> pageHistory.goBack();
+                case "on page" -> { commandController.accessCommand(command); }
+                case "back" -> { pageHistory.goBack(); }
+                case "database" -> {
+                    database.accessCommand(command);
+                    // refresh database
+                    currentSession.setAvailableMovies(database);
+                }
                 default ->
                         throw new IllegalStateException("Unexpected value: " + command.getType());
             }
+        }
+        if (currentSession.getCurrentUser() != null &&
+            currentSession.getCurrentUser().getCredentials().getAccountType().equals("premium")) {
+            Recommendation.getRecommendation(currentSession);
+            currentSession.setCurrentMoviesList(null);
+            output.addPOJO(new Output(currentSession));
         }
     }
 }

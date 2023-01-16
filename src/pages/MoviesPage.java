@@ -9,6 +9,8 @@ public final class MoviesPage extends Page {
     private static final MoviesPage INSTANCE = new MoviesPage();
 
     private MoviesPage() {
+        this.setPageName("movies");
+
         ArrayList<String> childrenPages = new ArrayList<>();
         ArrayList<String> pageCommands = new ArrayList<>();
 

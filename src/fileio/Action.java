@@ -15,4 +15,7 @@ public class Action {
     private String objectType;
     private String startsWith;
     private int rate;
+    private String subscribedGenre;
+    private Movie addedMovie;
+    private String deletedMovie;
 }

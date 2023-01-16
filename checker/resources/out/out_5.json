@@ -1,0 +1,104 @@
+[ {
+  "error" : null,
+  "currentUser" : {
+    "credentials" : {
+      "name" : "Ramsi",
+      "password" : "numiplacevelea",
+      "accountType" : "standard",
+      "country" : "Romania",
+      "balance" : "300"
+    },
+    "tokensCount" : 0,
+    "numFreePremiumMovies" : 15,
+    "purchasedMovies" : [ ],
+    "watchedMovies" : [ ],
+    "likedMovies" : [ ],
+    "ratedMovies" : [ ],
+    "notifications" : [ ]
+  },
+  "currentMoviesList" : [ ]
+}, {
+  "error" : "Error",
+  "currentUser" : null,
+  "currentMoviesList" : [ ]
+}, {
+  "error" : null,
+  "currentUser" : {
+    "credentials" : {
+      "name" : "Mihail",
+      "password" : "discret",
+      "accountType" : "premium",
+      "country" : "Russia",
+      "balance" : "1337"
+    },
+    "tokensCount" : 0,
+    "numFreePremiumMovies" : 15,
+    "purchasedMovies" : [ ],
+    "watchedMovies" : [ ],
+    "likedMovies" : [ ],
+    "ratedMovies" : [ ],
+    "notifications" : [ ]
+  },
+  "currentMoviesList" : [ ]
+}, {
+  "error" : null,
+  "currentUser" : {
+    "credentials" : {
+      "name" : "Mihail",
+      "password" : "discret",
+      "accountType" : "premium",
+      "country" : "Russia",
+      "balance" : "1337"
+    },
+    "tokensCount" : 0,
+    "numFreePremiumMovies" : 15,
+    "purchasedMovies" : [ ],
+    "watchedMovies" : [ ],
+    "likedMovies" : [ ],
+    "ratedMovies" : [ ],
+    "notifications" : [ ]
+  },
+  "currentMoviesList" : [ ]
+}, {
+  "error" : "Error",
+  "currentUser" : null,
+  "currentMoviesList" : [ ]
+}, {
+  "error" : "Error",
+  "currentUser" : null,
+  "currentMoviesList" : [ ]
+}, {
+  "error" : "Error",
+  "currentUser" : null,
+  "currentMoviesList" : [ ]
+}, {
+  "error" : "Error",
+  "currentUser" : null,
+  "currentMoviesList" : [ ]
+}, {
+  "error" : "Error",
+  "currentUser" : null,
+  "currentMoviesList" : [ ]
+}, {
+  "error" : null,
+  "currentUser" : {
+    "credentials" : {
+      "name" : "Mihail",
+      "password" : "discret",
+      "accountType" : "premium",
+      "country" : "Russia",
+      "balance" : "1337"
+    },
+    "tokensCount" : 0,
+    "numFreePremiumMovies" : 15,
+    "purchasedMovies" : [ ],
+    "watchedMovies" : [ ],
+    "likedMovies" : [ ],
+    "ratedMovies" : [ ],
+    "notifications" : [ {
+      "message" : "Recommendation",
+      "movieName" : "No recommendation"
+    } ]
+  },
+  "currentMoviesList" : null
+} ]

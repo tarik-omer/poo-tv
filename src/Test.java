@@ -166,6 +166,9 @@ public final class Test {
             return;
         } catch (Exception e) {
             printMessage(testFileName, "Program ended with exception: " + e.getMessage());
+
+            e.printStackTrace();
+
             return;
         } finally {
             task.cancel(true);

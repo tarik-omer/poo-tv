@@ -6,6 +6,8 @@ public final class RegisterPage extends Page {
     private static final RegisterPage INSTANCE = new RegisterPage();
 
     private RegisterPage() {
+        this.setPageName("register");
+
         ArrayList<String> childrenPages = new ArrayList<>();
         ArrayList<String> pageCommands = new ArrayList<>();
 

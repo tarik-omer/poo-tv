@@ -16,6 +16,10 @@ public class Output {
 
     public Output(final CurrentSession currentSession) {
         this.currentUser = new User(currentSession.getCurrentUser());
-        this.currentMoviesList = Movie.getMovieListCopy(currentSession.getCurrentMoviesList());
+        if (currentSession.getCurrentMoviesList() != null) {
+            this.currentMoviesList = Movie.getMovieListCopy(currentSession.getCurrentMoviesList());
+        } else {
+            this.currentMoviesList = null;
+        }
     }
 }

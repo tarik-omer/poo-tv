@@ -6,6 +6,8 @@ public final class SeeDetailsPage extends Page {
     private static final SeeDetailsPage INSTANCE = new SeeDetailsPage();
 
     private SeeDetailsPage() {
+        this.setPageName("see details");
+
         ArrayList<String> childrenPages = new ArrayList<>();
         ArrayList<String> pageCommands = new ArrayList<>();
 
@@ -19,6 +21,7 @@ public final class SeeDetailsPage extends Page {
         pageCommands.add("watch");
         pageCommands.add("like");
         pageCommands.add("rate");
+        pageCommands.add("subscribe");
 
         this.setChildrenPages(childrenPages);
         this.setPageCommands(pageCommands);
