@@ -28,6 +28,8 @@ The added features are:
   a movie recommendation based on the liked genres and most popular movies; available only for
   the last user that uses the app
 - a user can rate a movie multiple times, replacing previous rating and recalculating average rating
+- implementation was enhanced using more Design Patterns: Observer Pattern ('subscribe') and Memento Pattern ('back'),
+alongside previously used patterns: Factory and Singleton Pattern
 
 ## Usage
 
